@@ -1,7 +1,30 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
 
 export const Search = () => {
   const [value, setValue] = useState("");
+  const [dataResult, setDataResult] = useState([]);
+
+  console.log(dataResult)
+
+  useEffect(() => {
+    const search = async () => {
+      const {data} = await axios.get("http://en.wikipedia.org/w/api.php", {
+        params: {
+          action: "query",
+          list: "search",
+          origin: "*",
+          format: "json",
+          srsearch: value,
+        },
+      });
+
+      setDataResult(data)
+    };
+    if (value) {
+      search();
+    }
+  }, [value]);
 
   return (
     <div>
