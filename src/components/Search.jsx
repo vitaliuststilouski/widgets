@@ -19,12 +19,30 @@ export const Search = () => {
         },
       });
 
-      setDataResult(data)
+      setDataResult(data.query.search);
     };
     if (value) {
       search();
     }
   }, [value]);
+
+  const renderItems = dataResult.map((result) => {
+    return (
+      <div key={result.pageid} className="item">
+        <div className="right floated content">
+          <a href={`http://en.wikipedia/org?curid=${result.pageid}`} className="ui button">
+            Go
+          </a>
+        </div>
+        <div className="content">
+          <div className="header">
+            {result.title}
+          </div>
+          <span dangerouslySetInnerHTML={{__html: result.snippet}}></span>
+        </div>
+      </div>
+    )
+  })
 
   return (
     <div>
@@ -37,6 +55,9 @@ export const Search = () => {
             className="input"
           />
         </div>
+      </div>
+      <div className="ui cellted list">
+        {renderItems}
       </div>
     </div>
   )
