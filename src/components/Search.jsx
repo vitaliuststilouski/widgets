@@ -21,9 +21,21 @@ export const Search = () => {
 
       setDataResult(data.query.search);
     };
-    if (value) {
+
+    if (value && !dataResult.length) {
       search();
+    } else {
+      const timeoutId = setTimeout(() => {
+        if (value) {
+          search();
+        }
+      }, 400);
+
+      return () => {
+        clearTimeout(timeoutId)
+      };
     }
+
   }, [value]);
 
   const renderItems = dataResult.map((result) => {
